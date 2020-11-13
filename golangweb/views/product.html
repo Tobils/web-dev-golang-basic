@@ -1,0 +1,21 @@
+{{ template "layout" .}}
+{{ define "main" }}
+
+<!-- iterasi sllice  -->
+{{ range . }}
+    <!-- passing data struct  -->
+    <div class="text">
+        {{ .ID }}
+    </div>
+    <div class="text">
+        {{ .Name }}
+    </div>
+    <div class="text">
+        {{ .Price }}
+    </div>
+    <div class="text">
+        {{ .Stock }}
+    </div>
+{{ end }}
+
+{{ end }}
