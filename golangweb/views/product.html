@@ -4,17 +4,16 @@
 <!-- iterasi sllice  -->
 {{ range . }}
     <!-- passing data struct  -->
-    <div class="text">
-        {{ .ID }}
-    </div>
-    <div class="text">
-        {{ .Name }}
-    </div>
-    <div class="text">
-        {{ .Price }}
-    </div>
-    <div class="text">
-        {{ .Stock }}
+    <div class="text box-with-shadow">
+        <!-- .StockStatus adalah method milik product  -->
+        {{ .ID }} - {{ .Name }} - {{ .Price }}  {{ .StockStatus }}
+
+        <!-- lt => less than  funnction directly on view -->
+        <!-- {{ if lt .Stock 3 }}
+            Stock Hampir Habis
+        {{ end }} -->
+
+
     </div>
 {{ end }}
 

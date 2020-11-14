@@ -78,9 +78,9 @@ func ProductHandler(w http.ResponseWriter, r *http.Request) {
 	// }
 
 	data := []entity.Product{
-		{ID: 1, Name: "Mobilio", Price: 220000000, Stock: 3},
+		{ID: 1, Name: "Mobilio", Price: 220000000, Stock: 11},
 		{ID: 2, Name: "Xpander", Price: 270000000, Stock: 2},
-		{ID: 3, Name: "Fortuner", Price: 550000000, Stock: 3},
+		{ID: 3, Name: "Fortuner", Price: 550000000, Stock: 1},
 	}
 
 	tmp, err := template.ParseFiles(path.Join("views", "product.html"), path.Join("views", "layout.html"))
@@ -96,5 +96,85 @@ func ProductHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
 		return
 	}
+
+	log.Println(err)
+
+}
+
+// hendle http method
+func PostGet(w http.ResponseWriter, r *http.Request) {
+	method := r.Method // GET  POST
+	switch method {
+	case "GET":
+		w.Write([]byte("ini adalah GET"))
+	case "POST":
+		w.Write([]byte("ini adalah POST"))
+	default:
+		http.Error(w, "Error is hapenning, keep calming", http.StatusBadRequest)
+	}
+}
+
+// Form handler
+func Form(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		tmpl, err := template.ParseFiles(path.Join("views", "form.html"), path.Join("views", "layout.html"))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		err = tmpl.Execute(w, nil)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	http.Error(w, "Error is hapenning, keep calm", http.StatusBadRequest)
+}
+
+func ProcessPost(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		// extract form
+		name := r.Form.Get("name")
+		message := r.Form.Get("message")
+		data := map[string]interface{}{
+			"Name":    name,
+			"Message": message,
+		}
+
+		log.Println(name, message)
+		// w.Write([]byte(name))
+
+		tmp, err := template.ParseFiles(path.Join("views", "result.html"), path.Join("views", "layout.html"))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		err = tmp.Execute(w, data)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is hapenning, keep calm", http.StatusInternalServerError)
+			return
+		}
+
+		log.Println(err)
+
+		return
+
+	}
+	http.Error(w, "Error is hapenning, keep calm", http.StatusBadRequest)
 
 }

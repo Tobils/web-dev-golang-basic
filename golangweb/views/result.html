@@ -1,0 +1,19 @@
+{{ template "layout" .}}
+
+{{ define "main" }}
+
+<div class="box-with-shadow">
+    <div class="box-with-shadow">
+        <div class="text">
+           {{ .Name }}
+        </div>
+    </div>
+    
+    <div class="box-with-shadow">
+        <div class="text">
+           {{ .Message }}
+        </div>
+    </div>
+</div>
+
+{{ end }}
